@@ -29,14 +29,14 @@ export const AuthProvider = ({children}) => {
                     alert(e);
                 }
             },
-            register: async (email, password, firstName, {/** lastName */}, userType, currentPoint, totalPoint, amountPaid, totalRevenue) => {
+            register: async (email, password, firstName, {/** lastName */}, userType, totalHours) => {
                 try {
                     // console.log('Registered User Type:', userType);
                     await firebase.auth().createUserWithEmailAndPassword(email, password)
                     .then(() => {
                         firebase.auth().currentUser.sendEmailVerification({
                             handleCodeInApp: true,
-                            url: 'https://nushoplah.firebaseapp.com',
+                            url: 'https://volunteerhub-7b1ea.firebaseapp.com',
                         })
                         .then(() => {
                             Alert.alert('Verification email sent!', 'Please reload the app after verifying your email.')
@@ -46,8 +46,8 @@ export const AuthProvider = ({children}) => {
                             firebase.firestore().collection('users')
                                 .doc(firebase.auth().currentUser.uid)
                                 .set({
-                                    amountPaid,
-                                    currentPoint,
+                                    // amountPaid,
+                                    // currentPoint,
                                     firstName,
                                     email,
                                     totalHours,
