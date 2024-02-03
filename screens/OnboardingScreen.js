@@ -12,7 +12,7 @@ import Onboarding from 'react-native-onboarding-swiper';
 const Dots = ({ selected }) => {
   let backgroundColor;
 
-  backgroundColor = selected ? 'rgba(255, 255, 255, 0.8)' : 'rgba(150, 150, 150, 0.5)'
+  backgroundColor = selected ? 'rgba(255, 55, 255, 0.8)' : 'rgba(150, 150, 150, 0.5)'
   
   return (
       <View 
@@ -64,7 +64,7 @@ const Next = ({...props}) => (
 <TouchableOpacity 
   style = {{
     marginHorizontal : 15,
-    backgroundColor: '#F07B10',
+    backgroundColor: '#D27678',
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 10,
@@ -126,68 +126,72 @@ const OnboardingScreen = ({navigation}) => {
         pages={[
           {
             backgroundColor: "#ffffff",
-            // image: 
-            //   <Image 
-            //     source = {require('../assets/NUShopLah!-logo.png')} 
-            //     style={{
-            //       resizeMode: "contain",
-            //       height: 120,
-            //       width: 350,
-            //     }}
-            //   />,
-            title: 'Welcome to NUShopLah!',
-            subtitle: 'Shopping in NUS has never been so enjoyable!',
+            image: 
+              <Image 
+                source = {require('../assets/VolunteerHub.png')} 
+                style={{
+                  resizeMode: "contain",
+                  height: 240,
+                  width: 700,
+                }}
+              />,
+            // title: 'Welcome to VolunteerHub!',
+            subtitle: 'By Volunteers, For Volunteers.',
           },
           {
             backgroundColor: '#ffffff',
-            // image: <Image 
-            // source={require('../assets/onboarding1.png')} 
-            // style={{
-            //   resizeMode: "contain",
-            //   height: 100,
-            //   width: 200,
-            // }}
-            // />,
-            title: 'Personal QR/Barcode',
-            subtitle: 'Just 1 scan away from earning points',
+            image: <Image 
+            source={require('../assets/Personalised_qr_crop.png')} 
+            style={{
+              resizeMode: "contain",
+              height: 240,
+              width: 480,
+            }}
+            />,
+            title: 'Personal QR/ID',
+            subtitle: 'Easy Attendance Taking',
           },
           {
             backgroundColor: '#ffffff',
-            // image: <Image 
-            // source={require('../assets/onboarding2.png')} 
-            // style={{
-            //   resizeMode: "contain",
-            //   height: 100,
-            //   width: 200,
-            // }}
-            // />,
-            title: 'Exchange Points for Rewards',
-            subtitle: 'Get rewarded as you shop',
+            image: <Image 
+            source={require('../assets/SampleCertificate.png')} 
+            style={{
+              resizeMode: "contain",
+              height: 240,
+              width: 360,
+              borderColor: 'black',
+              borderWidth: 3,
+            }}
+            />,
+            title: 'Simple and Reliable Certification',
+            subtitle: 'Get credited for your efforts!',
           },
           {
             backgroundColor: '#ffffff',
-            // image: <Image 
-            // source={require('../assets/onboarding3.png')} 
-            // style={{
-            //   resizeMode: "contain",
-            //   height: 100,
-            //   width: 200,
-            // }}
-            // />,
-            title: 'Climb up the loyalty tier',
-            subtitle: 'Shop more, Earn more',
+            image: <Image 
+            source={require('../assets/ActivityManagement.jpg')} 
+            style={{
+              resizeMode: "contain",
+              height: 240,
+              width: 360,
+              borderColor: 'black',
+              borderWidth: 3,
+            }}
+            />,
+            title: 'Manage your Volunteer Activities',
+            subtitle: 'Enroll, Volunteer, Repeat.',
           },
           {
             backgroundColor: '#ffffff',
-            // image: <Image 
-            // source={require('../assets/NUShopLah!.png')} 
-            // style={{
-            //   resizeMode: "contain",
-            //   height: 100,
-            //   width: 200,
-            // }}
-            // />,
-            title: 'Welcome to Volunteer Hub!',
+            image: <Image 
+            source={require('../assets/VolunteerHub.png')} 
+            style={{
+              resizeMode: "contain",
+              height: 240,
+              width: 700,
+            }}
+            />,
+            title: 'Welcome to VolunteerHub!',
             subtitle: '',
           },
         ]}

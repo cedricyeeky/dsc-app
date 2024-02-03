@@ -33,6 +33,7 @@ const AuthStack = () => {
   } else {
     routeName = 'Login';
   }
+  // routeName = 'Onboarding' // For testing
 
   return (
     <Stack.Navigator initialRouteName={routeName}>
@@ -42,7 +43,7 @@ const AuthStack = () => {
           options = {{
             title: "Getting Started",
             headerStyle: {
-              backgroundColor: "#003D7C",
+              backgroundColor: "#BF281F",
             },
             headerTintColor: 'white',
             headerTitleStyle: {
