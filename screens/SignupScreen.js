@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   navButtonText: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#2e64e5',
+    color: '#BF281F',
   },
   textPrivate: {
     flexDirection: 'row',
