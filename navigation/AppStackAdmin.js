@@ -28,8 +28,8 @@ const AppStackAdmin = () => {
       <Tab.Navigator 
         initialRouteName={homeName}
         screenOptions={{
-          tabBarActiveTintColor: '#f07b10',
-          tabBarInactiveTintColor: 'white',
+          tabBarActiveTintColor: 'white',
+          tabBarInactiveTintColor: '#fec5e5',
           tabBarLabelStyle: { fontSize: 14},
           tabBarStyle: { 
             padding: 10,
@@ -39,7 +39,7 @@ const AppStackAdmin = () => {
             left: 0,
             right: 0,
             elevation: 0,
-            backgroundColor: '#003d7c',
+            backgroundColor: '#f26b8a',
             borderRadius: 0,
             height: deviceHeight * 0.10,
           }
@@ -52,8 +52,8 @@ const AppStackAdmin = () => {
           name={homeName} 
           component={HomeScreen} 
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'home' : 'home-outline';
@@ -65,8 +65,8 @@ const AppStackAdmin = () => {
           name={activityName}
           component={ActivityScreen}
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'receipt' : 'receipt-outline';
@@ -77,8 +77,8 @@ const AppStackAdmin = () => {
           name={scannerName} 
           component={Scanner}
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'scan' : 'scan-outline';
@@ -89,8 +89,8 @@ const AppStackAdmin = () => {
           name={accountName} 
           component={SettingsScreen}
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'person-circle' : 'person-circle-outline';
