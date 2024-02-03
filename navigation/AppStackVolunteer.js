@@ -27,8 +27,8 @@ const AppStackVolunteer = () => {
       <Tab.Navigator 
         initialRouteName={homeName}
         screenOptions={{
-          tabBarActiveTintColor: '#f07b10',
-          tabBarInactiveTintColor: 'white',
+          tabBarInActiveTintColor: '#fec5e5',
+          tabBarActiveTintColor: 'white',
           tabBarLabelStyle: { fontSize: 12 , justifyContent: 'center', alignItems: 'center',},
           tabBarStyle: { 
             padding: 10,
@@ -38,7 +38,7 @@ const AppStackVolunteer = () => {
             right: 0,
             bottom: 0,
             elevation: 0,
-            backgroundColor: '#003d7c',
+            backgroundColor: '#f26b8a',
             borderRadius: 0,
             height: deviceHeight * 0.10,
             alignItems: 'center',
@@ -52,8 +52,8 @@ const AppStackVolunteer = () => {
           name={homeName} 
           component={HomeScreen} 
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
+            tabBarActiveTintColor: 'white',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'home' : 'home-outline';
@@ -66,8 +66,8 @@ const AppStackVolunteer = () => {
           name={activityName}
           component={ActivityScreen}
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
+            tabBarActiveTintColor: 'white',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'receipt' : 'receipt-outline';
@@ -79,8 +79,8 @@ const AppStackVolunteer = () => {
           name={idName} 
           component={IdScreen}
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
+            tabBarActiveTintColor: 'white',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'qr-code' : 'qr-code-outline';
@@ -92,8 +92,8 @@ const AppStackVolunteer = () => {
           name={accountName} 
           component={SettingsScreen}
           options={{
-            tabBarActiveTintColor: '#f07b10',
-            tabBarInactiveTintColor: 'white',
+            tabBarInactiveTintColor: '#fec5e5',
+            tabBarActiveTintColor: 'white',
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               iconName = focused ? 'person-circle' : 'person-circle-outline';
