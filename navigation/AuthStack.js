@@ -26,13 +26,14 @@ const AuthStack = () => {
     });
   }, []);
 
-  if (isFirstLaunch === null) {
-    return null;
-  } else if (isFirstLaunch == true) {
-    routeName = 'Onboarding';
-  } else {
-    routeName = 'Login';
-  }
+  // if (isFirstLaunch === null) {
+  //   return null;
+  // } else if (isFirstLaunch == true) {
+  //   routeName = 'Onboarding';
+  // } else {
+  //   routeName = 'Login';
+  // }
+  routeName = 'Onboarding'
 
   return (
     <Stack.Navigator initialRouteName={routeName}>
@@ -42,7 +43,7 @@ const AuthStack = () => {
           options = {{
             title: "Getting Started",
             headerStyle: {
-              backgroundColor: "#003D7C",
+              backgroundColor: "#BF281F",
             },
             headerTintColor: 'white',
             headerTitleStyle: {
