@@ -57,7 +57,7 @@ const AuthStack = () => {
           options = {{
             title: "Login",
             headerStyle: {
-              backgroundColor: "#003D7C",
+              backgroundColor: "#BF281F",
             },
             headerTintColor: 'white',
             headerTitleStyle: {
@@ -69,7 +69,7 @@ const AuthStack = () => {
           name="Signup"
           component={SignupScreen}
           options={({navigation}) => ({
-            title: '',
+            title: "Sign up",
             headerStyle: {
                 backgroundColor: '#f9fafd',
                 shadowColor: '#f9fafd',

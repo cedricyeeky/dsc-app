@@ -24,38 +24,6 @@ const LoginScreen = ({navigation}) => {
 
   const {login} = useContext(AuthContext)
 
-  /**
-   * Sends a password reset email to the provided email address.
-   * @function
-   */
-  const forgetPassword = () => {
-    firebase.auth().sendPasswordResetEmail(email) //this email is from the email input bar. check if it is correct
-    .then(() => {
-      showPasswordResetSuccessMessage();
-      console.log("After using show mock function: Password Reset Email Sent!")
-    }).catch((err) => {
-      showAlert(err);
-    })
-  }
-
-  /**
-   * Custom function to display an alert message.
-   * @function
-   * @param {string} message - The message to be displayed in the alert.
-   */
-  const showAlert = (message) => {
-    console.log('Alert:', message);
-  };
-
-  /**
-   * Custom function to display a success message for password reset.
-   * @function
-   */
-  const showPasswordResetSuccessMessage = () => {
-    Alert.alert("Password Reset Email Sent!");
-    console.log('Password Reset Email Sent!');
-  };
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -92,7 +60,7 @@ const LoginScreen = ({navigation}) => {
 
       <TouchableOpacity 
         style={styles.forgotButton} 
-        onPress={() => {forgetPassword()}}
+        onPress={() => {forgetPassword(email)}}
         testID='forgot-password-button' // Add testID prop
         >
         <Text style={styles.navButtonText}>Forgot Password?</Text>
@@ -107,11 +75,11 @@ const LoginScreen = ({navigation}) => {
       />  */}
 
       <TouchableOpacity 
-        style={styles.forgotButton} 
+        style={styles.createAccountButton} 
         onPress={() => navigation.navigate('Signup')}
         testID='sign-up-button' // Add testID prop
         > 
-        <Text style={styles.navButtonText}>Don't have an account? Create here</Text>
+        <Text style={styles.navButtonText}>Don't have an account? Create here!</Text>
       </TouchableOpacity>
 
       <Text style={styles.whiteSpaceText}>White Space.</Text>
@@ -121,6 +89,43 @@ const LoginScreen = ({navigation}) => {
 };
 
 export default LoginScreen;
+
+/**
+   * Sends a password reset email to the provided email address.
+   * @function
+   */
+const forgetPassword = (email) => {
+  firebase.auth().sendPasswordResetEmail(email) //this email is from the email input bar. check if it is correct
+  .then(() => {
+    showPasswordResetSuccessMessage();
+    console.log("After using show mock function: Password Reset Email Sent!")
+  }).catch((err) => {
+    showAlert(err);
+  })
+}
+
+/**
+   * Custom function to display an alert message.
+   * @function
+   * @param {string} message - The message to be displayed in the alert.
+   */
+const showAlert = (message) => {
+  console.log('Alert:', message);
+  Alert.alert("Forgot Password?", 
+    "Please enter your email first before pressing 'Forgot Password?' button.",
+    [{text: 'ok', style: 'cancel'}],
+    {cancelable: true},
+  );
+};
+
+  /**
+   * Custom function to display a success message for password reset.
+   * @function
+   */
+  const showPasswordResetSuccessMessage = () => {
+    Alert.alert("Password Reset Email Sent!");
+    console.log('Password Reset Email Sent!');
+  };
 
 const styles = StyleSheet.create({
   container: {
@@ -145,12 +150,17 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   forgotButton: {
-    marginVertical: 35,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  createAccountButton: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   navButtonText: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#2e64e5',
+    color: '#BF281F',
   },
   whiteSpaceText: {
     fontSize: 16,

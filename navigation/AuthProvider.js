@@ -25,8 +25,12 @@ export const AuthProvider = ({children}) => {
                     // }
                     
                 } catch(e) {
-                    console.log(e);
-                    alert(e);
+                    console.log("Login Error", e);
+                    Alert.alert("Login Error!",
+                        "Please make sure you have entered the right email and password!", 
+                        [{text: 'ok', style: 'cancel'}],
+                        {cancelable: true},
+                    );
                 }
             },
             register: async (email, password, firstName, {/** lastName */}, userType, totalHours) => {
@@ -105,8 +109,8 @@ export const AuthProvider = ({children}) => {
         // alert('Registration successful! Please check your email to verify your account.');
 
                 } catch(e) {
-                    console.log(e);
-                    alert(e);
+                    console.log("Sign up Error: User does not provide all required data!", e);
+                    Alert.alert("Sign up Error.", "Kindly provide all your details correctly to sign up for an account.");
                 }
             },
             logout: async () => {
