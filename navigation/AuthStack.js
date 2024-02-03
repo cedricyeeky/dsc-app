@@ -26,14 +26,14 @@ const AuthStack = () => {
     });
   }, []);
 
-  // if (isFirstLaunch === null) {
-  //   return null;
-  // } else if (isFirstLaunch == true) {
-  //   routeName = 'Onboarding';
-  // } else {
-  //   routeName = 'Login';
-  // }
-  routeName = 'Onboarding'
+  if (isFirstLaunch === null) {
+    return null;
+  } else if (isFirstLaunch == true) {
+    routeName = 'Onboarding';
+  } else {
+    routeName = 'Login';
+  }
+  // routeName = 'Onboarding' // For testing
 
   return (
     <Stack.Navigator initialRouteName={routeName}>
