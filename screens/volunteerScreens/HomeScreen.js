@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Image, Dimensions, Modal, Pressable, FlatList, View, Text, StyleSheet, ScrollView, Platform } from 'react-native';
-import FormButton from '../../components/FormButton';
+// import FormButton from '../../components/FormButton';
 import { AuthContext } from '../../navigation/AuthProvider';
 import { firebase } from '../../firebaseconfig';
 import { Card, Searchbar, Button, Paragraph } from 'react-native-paper';
@@ -13,10 +13,10 @@ export const CardItem = ({item}) => {
     <Card style={styles.cardStyle}>
     <Card.Cover source={{ uri: item.eventImage }} />
       <Card.Content>
-        <Card.Title title={item.beneficiaryName} />
-        <Card.Title title={item.eventName} />
-        <Text>{item.eventHours}</Text>
-        <Paragraph numberOfLines={3}>{item.eventDescription}</Paragraph>
+        <Text style={styles.title}>{item.beneficiaryName}</Text>
+        <Text style={styles.title}>{item.eventName}</Text>
+        <Text style={styles.title}>No. of Hours: {item.eventHours}</Text>
+        <Paragraph numberOfLines={2}>{item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
       <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Read More"}</Button>
@@ -44,7 +44,8 @@ export const fetchEvents = (setEvents) => {
 
 export const filteredEvents = (events, searchQuery) => {
   return events.filter((event) =>
-    event.beneficiaryName.toLowerCase().includes(searchQuery.toLowerCase())
+    event.beneficiaryName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    event.eventName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 };
 
@@ -90,22 +91,34 @@ const HomeScreen = () => {
 
 
   return (
-     <View>
+     <View style={styles.container}>
       <Text style={styles.text}>Welcome! {firstName}</Text>
           <Text style={styles.whiteSpaceText}>White Space.</Text>
-          <FormButton buttonTitle='Logout' onPress={logout} />
-          <Text style={styles.whiteSpaceText}>White Space.</Text>
+          {/* {Platform.OS === "android" && ( */}
+            <Searchbar
+            placeholder="Search Beneficiary Name / Event"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+            style={styles.searchBar}
+            icon={() => <Ionicons name="search" size={20} />}
+            clearIcon={() => <Ionicons name="close" size={20} />}
+            />
+          {/* )} */}
       {events.length > 0 ? (
         <FlatList
-        data={events}
+        data={filteredEvents(events, searchQuery)}
         keyExtractor={(item) => item.id }
         renderItem={({item}) => (
           <CardItem item={item} />
         )}
+        contentContainerStyle={styles.listContainer}
         />
       ) : (
         <Text style={styles.noEvents}>No Events found.</Text>
       )}
+
+    <Text style={styles.whiteSpaceText}>White Space.</Text>
+    <Text style={styles.whiteSpaceText}>White Space.</Text>
       
     </View> 
   )
@@ -115,10 +128,25 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    alignContent: 'center',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    flex: 0.95
+  },
+  listContainer: {
+    flexGrow: 1,
+  },
   text: {
     fontSize: 20,
     color: '#333333',
     fontWeight: 'bold',
+    alignContent: 'center',
+    justifyContent: 'center'
+  },
+  title: {
+    fontWeight: 'bold',
+    marginVertical: 6,
   },
   whiteSpaceText: {
     fontSize: 16,
@@ -126,12 +154,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cardStyle: {
-    marginTop: 10,
-    marginHorizontal: 10,
-    borderRadius: 10
+    marginTop: 20,
+    marginHorizontal: 15,
+    borderRadius: 10,
   },
   noEvents: {
     fontSize: 16,
     textAlign: 'center',
+  },
+  searchBar: {
+    backgroundColor: '#f6eee3',
   }
 })
