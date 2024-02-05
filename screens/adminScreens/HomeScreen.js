@@ -38,6 +38,7 @@ const HomeScreen = () => {
   const [firstName, setFirstName] = useState('');
   const [eventImage, setEventImage] = useState(null);
   const [eventName, setEventName] = useState('');
+  const [beneficiaryName, setBeneficiaryName] = useState('');
   const [uploading, setUploading] = useState(false);
   const [eventHours, setEventHours] = useState(''); //Code somehow reads this as a String. We then TypeCast into Integer
   const [eventDescription, setEventDescription] = useState('');
@@ -131,8 +132,7 @@ const HomeScreen = () => {
                     .collection('events')
                     .doc(eventId)
                     .set({
-                      charityName: firstName,
-                      charityId: firebase.auth().currentUser.uid,
+                      beneficiaryName,
                       timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
                       usedBy: [], // Initialize the usedBy array as empty
                       eventHours,
@@ -234,7 +234,7 @@ const HomeScreen = () => {
 
       <Text style={styles.radioButtonTitle}>Create your Volunteer Event here!</Text>
 
-        <Card style={styles.dollarCard} testID="dollar-card">
+        <Card style={styles.volunteerCard} testID="dollar-card">
           <Card.Title title="Volunteer Event" titleStyle={styles.titleVoucher} testID="dollar-card"/>
           <Card.Content>
             {/* Input fields */}
@@ -244,6 +244,18 @@ const HomeScreen = () => {
               label="Event Name"
               value={eventName}
               onChangeText={(text) => setEventName(text)}
+              selectionColor='white'
+              cursorColor='white'
+              activeUnderlineColor='white'
+              textColor='white'
+              multiline= {true}
+            />
+
+            <TextInput
+              style={styles.textInput1}
+              label="Beneficiary Name"
+              value={beneficiaryName}
+              onChangeText={(text) => setBeneficiaryName(text)}
               selectionColor='white'
               cursorColor='white'
               activeUnderlineColor='white'
@@ -330,7 +342,7 @@ const styles = StyleSheet.create({
   },
   button2: {
     marginTop: 30,
-    backgroundColor: "#003D7C",
+    backgroundColor: "#bf281f",
     alignItems: 'center',
     padding: 10,
     borderRadius: 10,
@@ -342,10 +354,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  dollarCard: {
+  volunteerCard: {
     width: '100%',
     marginTop: 10,
-    backgroundColor: '#f07b10',
+    backgroundColor: '#f26b8a',
     color: 'white',
     borderRadius: 20,
     padding: 10,
@@ -407,7 +419,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   textInput1: {
-    backgroundColor: '#f07b10',  
+    backgroundColor: '#f26b8a',  
   },
   textInput2: {
     backgroundColor: '#db7b98',
