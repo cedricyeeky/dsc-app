@@ -148,7 +148,8 @@ const HomeScreen = () => {
                       setEventImage(null);
                       setEventHours('');
                       setEventDescription('');
-                      setEventName('')
+                      setEventName('');
+                      setBeneficiaryName('')
                     })
                     .catch((error) => {
                       console.log('Error creating event:', error);
