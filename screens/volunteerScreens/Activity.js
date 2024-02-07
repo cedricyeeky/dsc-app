@@ -99,6 +99,7 @@ const ActivityScreen = () => {
     setShowAttendanceQRCodeModal(true);
   }
 
+
   const takeAttendance = (event) => {
 
     //Checks if user is logged in.
