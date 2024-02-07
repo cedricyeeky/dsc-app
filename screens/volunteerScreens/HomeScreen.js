@@ -8,10 +8,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 export const CardItem = ({item, onSignUp}) => {
 
-  const handleSignUp = (item) => {
-    onSignUp(item); // Pass the event ID to the parent component to handle sign-up
-  };
-  
   const [showMore, setShowMore] = useState(false)
   return (
     <Card style={styles.cardStyle}>
@@ -30,7 +26,7 @@ export const CardItem = ({item, onSignUp}) => {
   )
 }
 
-const fetchEvents = (setEvents) => {
+export const fetchEvents = (setEvents) => {
   const unsubscribe =  firebase
     .firestore()
     .collection('events')
@@ -49,28 +45,6 @@ const fetchEvents = (setEvents) => {
     });
     return unsubscribe;
 };
-
-// export const fetchEvents = (setEvents) => {
-//   const unsubscribe = firebase
-//       .firestore()
-//       .collection('events')
-//       .orderBy('beneficiaryName', 'asc')
-//       .onSnapshot((snapshot) => {
-//         const data = [];
-//         const userUid = firebase.auth().currentUser.uid; 
-//         snapshot.forEach((doc) => {
-//           data.push({ id: doc.id, ...doc.data()} );
-//         });
-//         if (!eventData.usedBy || !eventData.usedBy.includes(userUid)) {
-//           data.push(eventData);
-//         }
-//       });
-//       setEvents(data);
-//         // console.log(data);
-//     });
-
-//   return unsubscribe;
-// };
 
 export const filteredEvents = (events, searchQuery) => {
   return events.filter((event) =>
@@ -114,7 +88,7 @@ const HomeScreen = () => {
 
       return () => unsubscribe();
     } else {
-      console.log("Seller has logged out!(Activity Screen)");
+      console.log("Volunteer has logged out!(Activity Screen)");
     }
   }, [user]);
 
