@@ -16,7 +16,7 @@ export const CardItem = ({item}) => {
         <Text style={styles.title}>{item.beneficiaryName}</Text>
         <Text style={styles.title}>{item.eventName}</Text>
         <Text style={styles.title}>No. of Hours: {item.eventHours}</Text>
-        <Paragraph numberOfLines={2}>{item.eventDescription}</Paragraph>
+        <Paragraph numberOfLines={showMore ? 0 : 2}>{item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
       <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Read More"}</Button>
@@ -88,7 +88,7 @@ const HomeScreen = () => {
     }
   }, [user]);
 
-
+  
 
   return (
      <View style={styles.container}>
