@@ -92,7 +92,9 @@ const HomeScreen = () => {
 
   return (
      <View style={styles.container}>
-      <Text style={styles.text}>Welcome! {firstName}</Text>
+      <View style={styles.textView}>
+        <Text style={styles.text}>Welcome! {firstName}</Text>
+      </View>
           <Text style={styles.whiteSpaceText}>White Space.</Text>
           {/* {Platform.OS === "android" && ( */}
             <Searchbar
@@ -142,7 +144,11 @@ const styles = StyleSheet.create({
     color: '#333333',
     fontWeight: 'bold',
     alignContent: 'center',
+    alignItems: 'center',
     justifyContent: 'center'
+  },
+  textView: {
+    alignItems: 'center'
   },
   title: {
     fontWeight: 'bold',
