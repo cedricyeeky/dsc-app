@@ -109,7 +109,7 @@ const ActivityScreen = () => {
       return;
     }
     
-    if (!event.usedBy.includes(currentUser.uid)) {
+    if (event.attendedBy.includes(currentUser.uid)) {
       Alert.alert("Hey There!", "You have already taken attendance for this event! If this is wrong, please contact the person in charge.");
     } else {
       // Confirm with the user if they want to take attendance
@@ -160,6 +160,20 @@ const ActivityScreen = () => {
       .catch((error) => {
           console.log("Error getting user: ", error)
       })
+
+      // const eventsCollectionRef = firebase.firestore().collection('events');
+      // const eventsDocRef = eventsCollectionRef.doc('eventId');
+      // const unsubscribe = eventsDocRef.onSnapshot((snapshot) => {
+      // const eventsData = snapshot.data();
+      // const currentUser = firebase.auth().currentUser;
+      // if (eventsData.attendedBy) {
+      //   if (eventsData.attendedBy.includes(currentUser.uid)) {
+      //     setShowAttendanceQRCodeModal(false);
+      //   }
+      //   setShowAttendanceQRCodeModal(false);
+      // }
+      // });
+      // return unsubscribe;
     } else {
       console.log("User has logged out! Stop fetching UID (HomeScreen)")
     }

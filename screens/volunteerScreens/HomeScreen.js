@@ -92,24 +92,42 @@ const HomeScreen = () => {
     }
   }, [user]);
 
+
   const handleSignUp = (item) => {
-    const userUid = firebase.auth().currentUser.uid;
+    // Show confirmation alert before signing up
+    Alert.alert(
+      "Confirm Sign Up",
+      `Are you sure you want to sign up for ${item.eventName}?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: () => {
+            // If the user confirms, proceed with signup
+            const userUid = firebase.auth().currentUser.uid;
   
-    // Update the Firebase document to add the user UID to the usedBy array
-    firebase.firestore().collection('events').doc(item.eventId).update({
-      usedBy: firebase.firestore.FieldValue.arrayUnion(userUid)
-    })
-    .then(() => {
-      console.log('User signed up for event successfully');
-      // After updating the document, remove the signed-up event from the events list
-      setEvents(events.filter(event => event.id !== item.eventId));
-    })
-    .catch(error => {
-      console.error('Error signing up for event:', error);
-      // Handle error, if any
-    });
-    Alert.alert("You have pressed on sign up!", "Event Name is: " + item.eventName)
+            // Update the Firebase document to add the user UID to the usedBy array
+            firebase.firestore().collection('events').doc(item.eventId).update({
+              usedBy: firebase.firestore.FieldValue.arrayUnion(userUid)
+            })
+            .then(() => {
+              console.log('User signed up for event successfully');
+              // After updating the document, remove the signed-up event from the events list
+              setEvents(events.filter(event => event.id !== item.eventId));
+            })
+            .catch(error => {
+              console.error('Error signing up for event:', error);
+              // Handle error, if any
+            });
+          },
+        },
+      ]
+    );
   };
+  
 
   return (
      <View style={styles.container}>
