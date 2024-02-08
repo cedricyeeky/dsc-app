@@ -33,9 +33,9 @@ export const CardItem = ({item, takeAttendance}) => {
     <Card style={styles.cardStyle}>
     <Card.Cover source={{ uri: item.eventImage }} />
       <Card.Content>
-        <Text style={styles.title}>{item.beneficiaryName}</Text>
-        <Text style={styles.title}>{item.eventName}</Text>
-        <Text style={styles.title}>No. of Hours: {item.eventHours}</Text>
+        <Text style={styles.title1}>{item.beneficiaryName}</Text>
+        <Text style={styles.title1}>{item.eventName}</Text>
+        <Text style={styles.title1}>No. of Hours: {item.eventHours}</Text>
         <Paragraph numberOfLines={showMore ? 0 : 2}>{item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
@@ -276,6 +276,11 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     marginVertical: 6,
+    color: 'white',
+  },
+  title1: {
+    fontWeight: 'bold',
+    marginVertical: 6,
   },
   whiteSpaceText: {
     fontSize: 16,
@@ -304,7 +309,7 @@ const styles = StyleSheet.create({
   modalContent: {
     height: '50%',
     width: '100%',
-    backgroundColor: '#f07b10',
+    backgroundColor: '#f26b8a',
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
     position: 'absolute',
@@ -313,7 +318,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     height: '16%',
-    backgroundColor: '#f07b10',
+    backgroundColor: '#f26b8a',
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     paddingHorizontal: 20,

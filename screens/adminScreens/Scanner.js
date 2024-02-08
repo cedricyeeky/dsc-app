@@ -184,23 +184,22 @@ const ScannerScreen = () => {
             <Card.Content> */}
 
             {showPromptModal && (
-            <Card>
+            <Card style={styles.card}>
               <Card.Content>
-                <Text>Volunteer ID: {data.volunteerId}</Text> 
-                <Text>Volunteer Name: {data.volunteerName}</Text>
-                <Text>Event: {data.eventName}</Text> 
-                <Text>Beneficiary: {data.beneficiaryName}</Text>
-                <Text>No. of Volunteer Hours: {data.eventHours}</Text>
+                <Text style={styles.cardText}>Volunteer ID: {data.volunteerId}</Text> 
+                <Text style={styles.cardText}>Volunteer Name: {data.volunteerName}</Text>
+                <Text style={styles.cardText}>Event: {data.eventName}</Text> 
+                <Text style={styles.cardText}>Beneficiary: {data.beneficiaryName}</Text>
+                <Text style={styles.cardText}>No. of Volunteer Hours: {data.eventHours}</Text>
               </Card.Content>
             </Card>)}
           
-          <FormButton
-            buttonTitle="Confirm"
-            onPress={() => handleAttendanceTaking()}
-          />
+          <TouchableOpacity style={styles.buttonContainer1} onPress={() => handleAttendanceTaking()}>
+            <Text style={styles.buttonText1}>Confirm</Text>
+          </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => setShowPromptModal(false)}>
-            <Text style={styles.buttonText}>Cancel</Text>
+          <TouchableOpacity style={styles.buttonContainer2} onPress={() => setShowPromptModal(false)}>
+            <Text style={styles.buttonText2}>Cancel</Text>
           </TouchableOpacity>
 
         </View>
@@ -218,7 +217,17 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
   },
-  buttonContainer: {
+  buttonContainer1: {
+    marginTop: 10,
+    width: '95%',
+    height: windowHeight / 15,
+    backgroundColor: '#fff',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+  },
+  buttonContainer2: {
     marginTop: 10,
     width: '95%',
     height: windowHeight / 15,
@@ -228,7 +237,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 20,
   },
-  buttonText: {
+  buttonText1: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#f26b8a',
+  },
+  buttonText2: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#ffffff',
@@ -237,6 +251,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  card: {
+    width: '95%',
+    marginVertical: 15,
+    backgroundColor: '#f26b8a',
+  },
+  cardText: {
+    marginVertical: 10,
+    fontWeight: 'bold',
+    color: 'white',
   },
   container: {
     flex: 1,
@@ -287,7 +311,7 @@ const styles = StyleSheet.create({
   modalContent: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#FCF0F5',
+    backgroundColor: '#F26b8a',
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
     position: 'absolute',
@@ -319,17 +343,18 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     height: '10%',
-    backgroundColor: '#BF281F',
     borderRadius: 10,
     paddingHorizontal: 50,
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 30,
+    marginBottom: 30,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
+    marginTop: 15,
   },
 
 });
