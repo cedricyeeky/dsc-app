@@ -186,11 +186,16 @@ const ScannerScreen = () => {
             {showPromptModal && (
             <Card style={styles.card}>
               <Card.Content>
-                <Text style={styles.cardText}>Volunteer ID: {data.volunteerId}</Text> 
-                <Text style={styles.cardText}>Volunteer Name: {data.volunteerName}</Text>
-                <Text style={styles.cardText}>Event: {data.eventName}</Text> 
-                <Text style={styles.cardText}>Beneficiary: {data.beneficiaryName}</Text>
-                <Text style={styles.cardText}>No. of Volunteer Hours: {data.eventHours}</Text>
+                <Text style={styles.cardText}>Volunteer Id</Text> 
+                <Text style={styles.cardText1}>{data.volunteerId}</Text> 
+                <Text style={styles.cardText}>Volunteer Name</Text>
+                <Text style={styles.cardText1}>{data.volunteerName}</Text>
+                <Text style={styles.cardText}>Event:</Text> 
+                <Text style={styles.cardText1}>{data.eventName}</Text> 
+                <Text style={styles.cardText}>Beneficiary:</Text>
+                <Text style={styles.cardText1}>{data.beneficiaryName}</Text>
+                <Text style={styles.cardText}>No. of Volunteer Hours:</Text>
+                <Text style={styles.cardText1}>{data.eventHours}</Text>
               </Card.Content>
             </Card>)}
           
@@ -228,7 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   buttonContainer2: {
-    marginTop: 10,
+    marginTop: 20,
     width: '95%',
     height: windowHeight / 15,
     backgroundColor: 'red',
@@ -255,12 +260,17 @@ const styles = StyleSheet.create({
   card: {
     width: '95%',
     marginVertical: 15,
-    backgroundColor: '#f26b8a',
+    backgroundColor: '#f6eee3',
   },
   cardText: {
-    marginVertical: 10,
+    marginVertical: 5,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
+    fontSize: 16,
+  },
+  cardText1: {
+    marginVertical: 5,
+    color: 'black',
   },
   container: {
     flex: 1,
@@ -354,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
-    marginTop: 15,
+    marginTop: 40,
   },
 
 });
