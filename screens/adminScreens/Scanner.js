@@ -85,10 +85,31 @@ const ScannerScreen = () => {
     
     try {
       const qrCodeData = JSON.parse(data);
-      setData(qrCodeData)
-      setShowPromptModal(true)
+      
+      if (qrCodeData.eventId) {
+        console.log("hi")
+        
+        // Check if eventId exists in the event collection
+        const eventSnapshot = await firebase.firestore().collection('events').doc(qrCodeData.eventId).get();
+        
+        if (eventSnapshot.exists) {
+          // If eventId exists, set data and show modal
+          setData(qrCodeData);
+          setShowPromptModal(true);
+        } else {
+          throw new Error("Event ID not found in the event collection");
+        }
+      } else {
+        throw new Error("Invalid QR code format or missing event ID");
+      }
     } catch (err) {
-      Alert.alert("error scanning QR Code: ", err)
+      if (err.message ==='Event ID not found in the event collection') {
+        Alert.alert("Error", 'Event ID not found')
+      } else {
+        Alert.alert("Error", 'Invalid QR Code')
+      }
+
+
     }
   }
 
