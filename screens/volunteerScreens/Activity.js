@@ -33,10 +33,10 @@ export const CardItem = ({item, takeAttendance}) => {
     <Card style={styles.cardStyle}>
     <Card.Cover source={{ uri: item.eventImage }} />
       <Card.Content>
-        <Text style={styles.title1}>{item.beneficiaryName}</Text>
-        <Text style={styles.title1}>{item.eventName}</Text>
+        <Text style={styles.title1}>Beneficiary: {item.beneficiaryName}</Text>
+        <Text style={styles.title1}>Event: {item.eventName}</Text>
         <Text style={styles.title1}>No. of Hours: {item.eventHours}</Text>
-        <Paragraph numberOfLines={showMore ? 0 : 2}>{item.eventDescription}</Paragraph>
+        <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
     <FAB
