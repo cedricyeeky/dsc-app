@@ -44,56 +44,60 @@ For both types, there are 3 key features.
 3. Report Generation - Administrators can generate a report of a volunteering activity to analyze how a particular activity has performed. 
 
 ## Completed Features
-General
-Onboarding Screen
-For first time users
-Overview of the key functions
-Login Screen
-Email and Password fields
-“Forgot password” function (Changing password email will be sent)
-Error checking:
-Press Sign In w/o email or password (Login Error)
-Press Sign In with key details incorrectly / filled halfway (Login Error) 
-Press Forgot Password w/o filling up email textbox (Password Error)
-Sign Up Screen
-Email, Full Name, Password and Confirm Password fields
-Include Password Constraints and Field Checking 
-Volunteer or Admin option
-Upon confirmation, Verification email will be sent
-Volunteer
-Home Screen
-Welcome header with volunteer name
-Search bar to find beneficiary name / activity name
-List of available activities to be scrolled
-Each activity shows picture, title, subtitle, description, number of hours to commit
-Sign Up button to sign up activity
-Read More button for more details
-Activity Screen
-Cumulative Hours indicator to show amount of volunteer hours done
-Search bar to find enrolled beneficiary name / activity name
-List of enrolled activities
-Attendance personal QR code to be scanned by administrator
-Request certificate button to request certificate after activity is completed
-Read More button for more details
-Personal ID Screen
-Settings Screen
-Logout button
-Administrator
-Home Screen
-Welcome header with administrator name
-Logout button
-Volunteer Form template
-Event Name, Beneficiary Name, Volunteer Hours, Event Description fields
-Choose Image button
-Create button
-Scan QR button to be redirected to Scanner Screen
-Activity Screen
-Overview of created activities
-Read More option and Cancel Event option
-Scanner Screen
-Request for camera permission
-Scan QR code area
-Account Screen
+
+### General
+#### 1. Onboarding Screen
+- For first time users
+- Overview of the key functions
+#### 2. Login Screen
+- Email and Password fields
+- “Forgot password” function (Changing password email will be sent)
+- Error checking:
+	- Press Sign In w/o email or password (Login Error)
+	- Press Sign In with key details incorrectly / filled halfway (Login Error) 
+	- Press Forgot Password w/o filling up email textbox (Password Error)
+#### 3. Sign Up Screen
+- Email, Full Name, Password and Confirm Password fields
+	- Include Password Constraints and Field Checking 
+- Volunteer or Admin option
+- Upon confirmation, Verification email will be sent
+
+### Volunteer
+#### 1. Home Screen
+- Welcome header with volunteer name
+- Search bar to find beneficiary name / activity name
+- List of available activities to be scrolled
+- Each activity shows picture, title, subtitle, description, number of hours to commit
+- Sign Up button to sign up activity
+- Read More button for more details
+#### 2. Activity Screen
+- Cumulative Hours indicator to show amount of volunteer hours done
+- Search bar to find enrolled beneficiary name / activity name
+- List of enrolled activities
+	- Attendance personal QR code to be scanned by administrator
+	- Request certificate button to request certificate after activity is completed
+	- Read More button for more details
+#### 3. Personal ID Screen
+#### 4. Settings Screen
+- Logout button
+
+### Administrator
+#### 1. Home Screen
+- Welcome header with administrator name
+- Logout button
+- Volunteer Form template
+	- Event Name, Beneficiary Name, Volunteer Hours, Event Description fields
+	- Choose Image button
+	- Create button
+- Scan QR button to be redirected to Scanner Screen
+#### 2. Activity Screen
+- Overview of created activities
+	- Read More option and Cancel Event option
+#### 3. Scanner Screen
+- Request for camera permission
+- Scan QR code area
+#### 4. Account Screen
+- Logout button
 
 # Developers Guide
 
