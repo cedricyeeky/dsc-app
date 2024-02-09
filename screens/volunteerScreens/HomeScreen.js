@@ -13,10 +13,10 @@ export const CardItem = ({item, onSignUp}) => {
     <Card style={styles.cardStyle}>
     <Card.Cover source={{ uri: item.eventImage }} />
       <Card.Content>
-        <Text style={styles.title}>{item.beneficiaryName}</Text>
-        <Text style={styles.title}>{item.eventName}</Text>
+        <Text style={styles.title}>Beneficiary: {item.beneficiaryName}</Text>
+        <Text style={styles.title}>Event: {item.eventName}</Text>
         <Text style={styles.title}>No. of Hours: {item.eventHours}</Text>
-        <Paragraph numberOfLines={showMore ? 0 : 2}>{item.eventDescription}</Paragraph>
+        <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
       <Button onPress={() => onSignUp(item)}>Sign Up</Button>
