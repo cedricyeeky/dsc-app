@@ -48,7 +48,8 @@ const HomeScreen = () => {
 
   // FOr Dates
   const [isDatePickerShowed, setIsDatePickerShowed] = useState(false);
-  const [eventStartDate, setEventStartDate] = useState(new Date());
+  const [isTimePickerShowed, setIsTimePickerShowed] = useState(false);
+  const [eventStartDateTime, setEventStartDateTime] = useState(new Date());
   const [checked, setChecked] = React.useState('first');
   const [uploading, setUploading] = useState(false);
   // const [voucherType, setVoucherType] = useState('dollar');
@@ -151,11 +152,11 @@ const HomeScreen = () => {
                       attendedBy: [],
                       requestCertificate: [],
                       eventLocation,
-                      eventStartDate,
+                      eventStartDateTime,
                     })
                     .then(() => {
                       console.log('Volunteer Event created successfully!');
-                      Alert.alert('Success! Volunteer Event successfully!');
+                      Alert.alert("Success!", "Volunteer Event created successfully!");
                       // Reset the input fields
                       setEventImage(null);
                       setEventHours('');
@@ -163,7 +164,7 @@ const HomeScreen = () => {
                       setEventName('');
                       setBeneficiaryName('');
                       setEventLocation('');
-                      setEventStartDate(new Date());
+                      setEventStartDateTime(new Date());
                     })
                     .catch((error) => {
                       console.log('Error creating event:', error);
@@ -241,8 +242,14 @@ const HomeScreen = () => {
 
   const pickDate = (e, date) => {
     console.log("date: " + date)
-    setEventStartDate(date)
+    setEventStartDateTime(date)
     setIsDatePickerShowed(false)
+  }
+
+  const pickTime = (e, date) => {
+    console.log("date: " + date)
+    setEventStartDateTime(date)
+    setIsTimePickerShowed(false)
   }
     
   return (
@@ -328,16 +335,39 @@ const HomeScreen = () => {
 
             {isDatePickerShowed && (
               <DateTimePicker
-                testID="dateTimePicker"
-                value={eventStartDate}
+                testID="datePicker"
+                mode="date"
+                value={eventStartDateTime}
                 is24Hour={true}
                 display="spinner"
                 minimumDate={new Date(2024, 0, 1)}
                 onChange={pickDate}/>
             )} 
 
-            {eventStartDate &&
-            <Text>{eventStartDate.toLocaleString()}</Text>
+            <Button
+              onPress={() => setIsTimePickerShowed(true)} 
+              buttonColor='white'
+              style={{marginTop: 20}}>
+                Select Event Start Time
+            </Button> 
+
+            {isTimePickerShowed && (
+              <DateTimePicker
+                testID="timePicker"
+                mode="time"
+                value={eventStartDateTime}
+                is24Hour={true}
+                display="spinner"
+                minimumDate={new Date(2024, 0, 1)}
+                onChange={pickTime}/>
+            )} 
+
+            {eventStartDateTime &&
+            <Text>{eventStartDateTime.toLocaleString()}</Text>
+            }
+
+            {eventStartDateTime &&
+            <Text>{eventStartDateTime.toLocaleString()}</Text>
             }
             
 
@@ -370,9 +400,6 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate('Scan QR')}
         color='#003d7c'
       />
-
-      
-
 
       <Text style={styles.whiteSpaceText}>White Space.</Text>
       <Text style={styles.whiteSpaceText}>White Space.</Text>

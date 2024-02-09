@@ -30,7 +30,8 @@ export const CardItem = ({item}) => {
 export const getDateOfEvent = (timestamp) => {
   //console.log(timestamp);
   if (timestamp) {
-    return timestamp.toDate().toLocaleString();
+    // return timestamp.toDate().toLocaleString();
+    return timestamp.toDate().toDateString();
   } else {
     console.log("timestamp does not exist for this voucher YET. Might be due to lagging. Try again a few seconds later")
   }

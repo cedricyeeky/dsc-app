@@ -5,6 +5,7 @@ import { AuthContext } from '../../navigation/AuthProvider';
 import { firebase } from '../../firebaseconfig';
 import { Card, Searchbar, Button, Paragraph } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { getDateOfEvent } from '../adminScreens/Activity';
 
 
 export const CardItem = ({item, onSignUp}) => {
@@ -16,6 +17,8 @@ export const CardItem = ({item, onSignUp}) => {
       <Card.Content>
         <Text style={styles.title}>Beneficiary: {item.beneficiaryName}</Text>
         <Text style={styles.title}>Event: {item.eventName}</Text>
+        <Text style={styles.title}>Location: {item.eventLocation}</Text>
+        <Text style={styles.title}>Date of Event: {getDateOfEvent(item.eventStartDate)}</Text>
         <Text style={styles.title}>No. of Hours: {item.eventHours}</Text>
         <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
