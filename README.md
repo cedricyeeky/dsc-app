@@ -207,3 +207,6 @@ Therefore, only an Android APK version of the VolunteerHub app is possible, and 
 The attendance report of one volunteer across a time period
 Reports by available demographics (age, gender, work status, immigration status, interests or skills) to understand volunteer behavior and response,
 Generate volunteer activity report by months or types of volunteering activities
+
+# Important Note
+Thie app is still a prototype. Currently it allows new users to create their new account as either a Volunteer or an Admin, which is not safe for the data in real use case. In the real use case, the app will restrict the type of account that a new user can create to just one type, which will just be Volunteer type. The Admin type account will be added and configured another way.
