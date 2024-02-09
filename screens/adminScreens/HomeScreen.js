@@ -140,7 +140,8 @@ const HomeScreen = () => {
                       eventId,
                       eventImage: downloadURL, 
                       eventName,
-                      attendedBy: []
+                      attendedBy: [],
+                      requestCertificate: [],
                     })
                     .then(() => {
                       console.log('Volunteer Event created successfully!');

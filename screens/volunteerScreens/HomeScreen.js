@@ -19,8 +19,10 @@ export const CardItem = ({item, onSignUp}) => {
         <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
-      <Button onPress={() => onSignUp(item)}>Sign Up</Button>
-      <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Read More"}</Button>
+      <Button onPress={() => onSignUp(item)} buttonColor='white'>Sign Up</Button>
+    </Card.Actions>
+    <Card.Actions>
+      <Button onPress={() => setShowMore(!showMore)} buttonColor='white'>{showMore ? "Show Less" : "Read More"}</Button>
     </Card.Actions>
   </Card>
   )
@@ -204,6 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   noEvents: {
+    marginTop: 30,
     fontSize: 16,
     textAlign: 'center',
   },
