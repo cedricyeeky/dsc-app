@@ -18,7 +18,7 @@ export const CardItem = ({item, onSignUp}) => {
         <Text style={styles.title}>Beneficiary: {item.beneficiaryName}</Text>
         <Text style={styles.title}>Event: {item.eventName}</Text>
         <Text style={styles.title}>Location: {item.eventLocation}</Text>
-        <Text style={styles.title}>Date of Event: {getDateOfEvent(item.eventStartDate)}</Text>
+        <Text style={styles.title}>Date of Event: {getDateOfEvent(item.eventStartDateTime)}</Text>
         <Text style={styles.title}>No. of Hours: {item.eventHours}</Text>
         <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
@@ -123,6 +123,9 @@ const HomeScreen = () => {
               console.log('User signed up for event successfully');
               // After updating the document, remove the signed-up event from the events list
               setEvents(events.filter(event => event.id !== item.eventId));
+              Alert.alert("Sign Up Success!", `You have successfully signed up for: ${item.eventName} for ${item.beneficiaryName}.
+              
+This event happens on ${getDateOfEvent(item.eventStartDateTime)}. Please visit Activity Page to see your enrollment!`)
             })
             .catch(error => {
               console.error('Error signing up for event:', error);

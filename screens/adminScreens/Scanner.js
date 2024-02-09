@@ -136,6 +136,8 @@ const ScannerScreen = () => {
       eventName: data.eventName,
       timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
       eventId: data.eventId,
+      eventStartDateTime: data.eventStartDateTime,
+      eventLocation: data.eventLocation
     });
 
     // update attendedBy array

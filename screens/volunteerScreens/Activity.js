@@ -41,8 +41,8 @@ export const CardItem = ({item, takeAttendance, requestCertificate}) => {
       <Card.Content>
         <Text style={styles.title1}>Beneficiary: {item.beneficiaryName}</Text>
         <Text style={styles.title1}>Event: {item.eventName}</Text>
-        <Text style={styles.title}>Location: {item.eventLocation}</Text>
-        <Text style={styles.title}>Date of Event: {getDateOfEvent(item.eventStartDate)}</Text>
+        <Text style={styles.title1}>Location: {item.eventLocation}</Text>
+        <Text style={styles.title1}>Date of Event: {getDateOfEvent(item.eventStartDateTime)}</Text>
         <Text style={styles.title1}>No. of Hours: {item.eventHours}</Text>
         <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
@@ -73,11 +73,14 @@ export const filteredEvents = (events, searchQuery) => {
   );
 };
 
-export const calculateTotalHours = (events) => {
+export const calculateTotalHours = (user, events) => {
   let totalHours = 0;
 
   events.forEach((event) => {
-    totalHours += Number(event.eventHours);
+    if (event.attendedBy.includes(user.uid)) {
+      totalHours += Number(event.eventHours);
+    }
+    
   });
 
   //totalHours = Number(totalHours.toFixed(2));
@@ -360,6 +363,8 @@ const ActivityScreen = () => {
           eventName: event.eventName,
           eventDescription: event.eventDescription,
           eventId: event.eventId,
+          eventLocation: event.eventLocation,
+          eventStartDateTime: event.eventStartDateTime,
       };
       return JSON.stringify(qrCodeData);
     } else {
@@ -371,7 +376,7 @@ const ActivityScreen = () => {
      <View style={styles.container}>
       <View style={styles.textView}>
         <Text style={styles.text}>Your Activites</Text>
-        <Text style={styles.text}>Cumulative Hours Contributed: {calculateTotalHours(events)}</Text>
+        <Text style={styles.text}>Cumulative Hours Contributed: {calculateTotalHours(user, events)}</Text>
       </View>
           <Text style={styles.whiteSpaceText}>White Space.</Text>
           {/* {Platform.OS === "android" && ( */}
