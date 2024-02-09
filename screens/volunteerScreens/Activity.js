@@ -75,21 +75,20 @@ export const filteredEvents = (events, searchQuery) => {
 
 export const calculateTotalHours = (user, events) => {
   let totalHours = 0;
-
-  events.forEach((event) => {
-    if (event.attendedBy.includes(user.uid)) {
-      totalHours += Number(event.eventHours);
-    }
-    
-  });
-
+  try {
+    events.forEach((event) => {
+      if (event.attendedBy.includes(user.uid)) {
+        totalHours += Number(event.eventHours);
+      }
+    });
+  } catch (err) {
+    console.log("Error in calculating total hours: " + err)
+  }
   //totalHours = Number(totalHours.toFixed(2));
   console.log(totalHours);
 
   return totalHours;
 };
-
-
 
 const ActivityScreen = () => {
   const [events, setEvents] = useState([]);
