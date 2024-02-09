@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View, Alert, Button, Pressable, TouchableOpacity} from 'react-native';
+import { Image, StyleSheet, Text, View, Alert, Pressable, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { firebase } from '../../firebaseconfig';
-import { FAB, Card, TextInput, RadioButton, PaperProvider } from 'react-native-paper';
+import { FAB, Card, TextInput, RadioButton, PaperProvider, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import FormInput from '../../components/FormInput';
 import FormButton from '../../components/FormButton';
 import { AuthContext } from '../../navigation/AuthProvider';
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 // export const createVoucherInFirestore = async (eventData) => {
@@ -34,15 +35,23 @@ import { Ionicons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout } = useContext(AuthContext);
   const [firstName, setFirstName] = useState('');
+
+  //states to store event details
   const [eventImage, setEventImage] = useState(null);
   const [eventName, setEventName] = useState('');
   const [beneficiaryName, setBeneficiaryName] = useState('');
-  const [uploading, setUploading] = useState(false);
   const [eventHours, setEventHours] = useState(''); //Code somehow reads this as a String. We then TypeCast into Integer
   const [eventDescription, setEventDescription] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
+
+  // FOr Dates
+  const [isDatePickerShowed, setIsDatePickerShowed] = useState(false);
+  const [isTimePickerShowed, setIsTimePickerShowed] = useState(false);
+  const [eventStartDateTime, setEventStartDateTime] = useState(new Date());
   const [checked, setChecked] = React.useState('first');
+  const [uploading, setUploading] = useState(false);
   // const [voucherType, setVoucherType] = useState('dollar');
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -74,7 +83,7 @@ const HomeScreen = () => {
   }, [user]);
 
   const createEvent = () => {
-    //Added try-catch to handle negative voucherAmount input
+    //Added try-catch to handle erroneous inputs
     try {
 
       if (eventHours < 0 || eventHours == '') {
@@ -126,7 +135,7 @@ const HomeScreen = () => {
               const downloadURL = await imageRef.getDownloadURL();
               console.log('Image download URL:', downloadURL);
 
-                  // Create the voucher document in Firestore
+                  // Create the event document in Firestore
                   firebase
                     .firestore()
                     .collection('events')
@@ -142,16 +151,20 @@ const HomeScreen = () => {
                       eventName,
                       attendedBy: [],
                       requestCertificate: [],
+                      eventLocation,
+                      eventStartDateTime,
                     })
                     .then(() => {
                       console.log('Volunteer Event created successfully!');
-                      Alert.alert('Success! Volunteer Event successfully!');
+                      Alert.alert("Success!", "Volunteer Event created successfully!");
                       // Reset the input fields
                       setEventImage(null);
                       setEventHours('');
                       setEventDescription('');
                       setEventName('');
-                      setBeneficiaryName('')
+                      setBeneficiaryName('');
+                      setEventLocation('');
+                      setEventStartDateTime(new Date());
                     })
                     .catch((error) => {
                       console.log('Error creating event:', error);
@@ -205,7 +218,7 @@ const HomeScreen = () => {
   }
 
   /**
-   * Uploads the selected voucher image to Firebase Storage.
+   * Uploads the selected event image to Firebase Storage.
    * Fetches the image as a blob and stores it in the storage bucket.
    * Updates the state to indicate uploading progress and completion.
    * @returns {Promise<void>} A promise that resolves when the image is uploaded.
@@ -227,6 +240,18 @@ const HomeScreen = () => {
       setEventImage(null);
     }
 
+  const pickDate = (e, date) => {
+    console.log("date: " + date)
+    setEventStartDateTime(date)
+    setIsDatePickerShowed(false)
+  }
+
+  const pickTime = (e, date) => {
+    console.log("date: " + date)
+    setEventStartDateTime(date)
+    setIsTimePickerShowed(false)
+  }
+    
   return (
     <GestureHandlerRootView>
       <ScrollView>
@@ -251,7 +276,7 @@ const HomeScreen = () => {
               cursorColor='white'
               activeUnderlineColor='white'
               textColor='white'
-              multiline= {true}
+              multiline= {true} 
             />
 
             <TextInput
@@ -270,8 +295,19 @@ const HomeScreen = () => {
               style={styles.textInput1}
               label="Vounteer Hours"
               value={String(eventHours)}
-              keyboardType='numeric'
               onChangeText={(text) => setEventHours(text)}
+              selectionColor='white'
+              cursorColor='white'
+              activeUnderlineColor='white'
+              textColor='white'
+              keyboardType='numeric'
+            />
+
+            <TextInput
+              style={styles.textInput1}
+              label="Event Location"
+              value={eventLocation}
+              onChangeText={(text) => setEventLocation(text)}
               selectionColor='white'
               cursorColor='white'
               activeUnderlineColor='white'
@@ -290,8 +326,52 @@ const HomeScreen = () => {
               multiline= {true}
             />
 
+            <Button
+              onPress={() => setIsDatePickerShowed(true)} 
+              buttonColor='white'
+              style={{marginTop: 20}}>
+                Select Event Date
+            </Button> 
 
-            {/* Upload voucher image */}
+            {isDatePickerShowed && (
+              <DateTimePicker
+                testID="datePicker"
+                mode="date"
+                value={eventStartDateTime}
+                is24Hour={true}
+                display="spinner"
+                minimumDate={new Date(2024, 0, 1)}
+                onChange={pickDate}/>
+            )} 
+
+            <Button
+              onPress={() => setIsTimePickerShowed(true)} 
+              buttonColor='white'
+              style={{marginTop: 20}}>
+                Select Event Start Time
+            </Button> 
+
+            {isTimePickerShowed && (
+              <DateTimePicker
+                testID="timePicker"
+                mode="time"
+                value={eventStartDateTime}
+                is24Hour={true}
+                display="spinner"
+                minimumDate={new Date(2024, 0, 1)}
+                onChange={pickTime}/>
+            )} 
+
+            {eventStartDateTime &&
+            <Text>{eventStartDateTime.toLocaleString()}</Text>
+            }
+
+            {eventStartDateTime &&
+            <Text>{eventStartDateTime.toLocaleString()}</Text>
+            }
+            
+
+            {/* Upload event image */}
             <Pressable style={styles.button2} onPress={selectImage} testID='voucher-image-button'>
               <Text style={styles.text1}>Choose Image From Library</Text>
             </Pressable>
@@ -320,9 +400,6 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate('Scan QR')}
         color='#003d7c'
       />
-
-      
-
 
       <Text style={styles.whiteSpaceText}>White Space.</Text>
       <Text style={styles.whiteSpaceText}>White Space.</Text>
