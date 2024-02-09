@@ -26,7 +26,7 @@ export const fetchEvents = (setEvents) => {
     return unsubscribe;
 };
 
-export const CardItem = ({item, takeAttendance}) => {
+export const CardItem = ({item, takeAttendance, requestCertificate}) => {
 
   const [showMore, setShowMore] = useState(false)
   return (
@@ -39,7 +39,7 @@ export const CardItem = ({item, takeAttendance}) => {
         <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
-    <FAB
+      <FAB
         icon={() => <Ionicons name="scan-outline" size={20}/>}
         style={styles.fab}
         label="Attendance"
@@ -47,7 +47,12 @@ export const CardItem = ({item, takeAttendance}) => {
         onPress={() => takeAttendance(item)}
         color='#003d7c'
       />
-      <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Read More"}</Button>
+    </Card.Actions>
+    <Card.Actions>
+      <Button onPress={() => requestCertificate(item)} buttonColor='white'>Request Certificate</Button>
+    </Card.Actions>
+    <Card.Actions>
+      <Button onPress={() => setShowMore(!showMore)} buttonColor='white'>{showMore ? "Show Less" : "Read More"}</Button>
     </Card.Actions>
   </Card>
   )
@@ -99,6 +104,62 @@ const ActivityScreen = () => {
     setShowAttendanceQRCodeModal(true);
   }
 
+  const requestCertificate = (event) => {
+
+    //Checks if user is logged in.
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser) {
+      console.log("User is not logged in!");
+      return;
+    }
+    
+    if (!event.attendedBy.includes(currentUser.uid)) {
+      Alert.alert("Hey There!", "You cannot request for a certificate yet since your attendance is not taken.");
+    } else {
+      // Confirm with the user if they want to take attendance
+      Alert.alert(
+        'Request Certificate',
+        'Are you sure you want to request certificate of completion for this event?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Confirm',
+            onPress: () => {
+              handleCertificate(event, setEvent);
+            },
+          },
+        ]
+      );
+    }
+  };
+
+  const handleCertificate = (event, setEvent) => {
+    console.log("Event is:", event.eventId);
+
+    // update requestCertificate array in Events Collection
+    firebase
+        .firestore()
+        .collection('events')
+        .doc(event.eventId)
+        .update({
+          requestCertificate: firebase.firestore.FieldValue.arrayUnion(user.uid),
+        }).then(() => {
+          console.log('Certificate request submitted!');
+        })
+        .catch((error) => {
+          console.log('Error updating requestCertificate array:', error);
+        });
+
+    setEvent(event);
+  
+    Alert.alert(
+      "Thank You",
+      "Your request for Certificate of Completion for this event is successfully submitted."
+    );
+  }
 
   const takeAttendance = (event) => {
 
@@ -230,7 +291,7 @@ const ActivityScreen = () => {
         data={filteredEvents(events, searchQuery)}
         keyExtractor={(item) => item.id }
         renderItem={({item}) => (
-          <CardItem item={item} takeAttendance={takeAttendance}/>
+          <CardItem item={item} takeAttendance={takeAttendance} requestCertificate={requestCertificate}/>
         )}
         contentContainerStyle={styles.listContainer}
         />
@@ -316,8 +377,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6eee3',
   },
   fab: {
-    marginTop: 15,
-    padding: 2,
+    marginTop: 5,
     backgroundColor: 'white',
   },
   modalContent: {

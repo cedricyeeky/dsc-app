@@ -18,10 +18,10 @@ export const CardItem = ({item}) => {
         <Paragraph numberOfLines={showMore ? 0 : 2}>Event Description: {item.eventDescription}</Paragraph>
     </Card.Content>
     <Card.Actions>
-      <Pressable style={styles.button} onPress={() => handleCancelEvent(item.id)}>
-        <Text style={styles.cancelText}>Cancel Event</Text>
-      </Pressable>
-      <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Read More"}</Button>
+      <Button onPress={() => handleCancelEvent(item.id)} buttonColor='red' textColor='white'>Cancel Event</Button>
+    </Card.Actions>
+    <Card.Actions>
+      <Button onPress={() => setShowMore(!showMore)} buttonColor='white'>{showMore ? "Show Less" : "Read More"}</Button>
     </Card.Actions>
   </Card>
   )
