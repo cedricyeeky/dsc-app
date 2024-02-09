@@ -6,6 +6,11 @@ import { Card, Searchbar, Button, Paragraph, FAB } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import QRCodeWithLogo from '../../components/QRCodeWithLogo';
 
+
+//Certificate imports
+import { printToFileAsync } from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+
 export const fetchEvents = (setEvents) => {
   const unsubscribe =  firebase
     .firestore()
@@ -128,7 +133,7 @@ const ActivityScreen = () => {
           {
             text: 'Confirm',
             onPress: () => {
-              handleCertificate(event, setEvent);
+              handleCertificate(user, event, setEvent);
             },
           },
         ]
@@ -136,7 +141,7 @@ const ActivityScreen = () => {
     }
   };
 
-  const handleCertificate = (event, setEvent) => {
+  const handleCertificate = (user, event, setEvent) => {
     console.log("Event is:", event.eventId);
 
     // update requestCertificate array in Events Collection
@@ -154,7 +159,97 @@ const ActivityScreen = () => {
         });
 
     setEvent(event);
+
+    // Produce PDF HTML file 
+    const certificateHtml = `
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: 'Brush Script MT', cursive;
+            text-align: center;
+            border: 5px solid #BF281F;
+            padding: 50px; /* Adjust the padding as needed */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #FCF0F5;
+          }
+
+          .content {
+            /* Additional styling for the content if needed */
+          }
+
+          .logo {
+            max-width: 100%;
+            height: auto;
+          }
+
+          .signatures {
+            display: flex;
+            justify-content: space-around;
+            font-family: 'Times New Roman';
+            width: 100%;
+            margin-top: 20px; 
+          }
+
+          h1 {
+            color: #BF281F;
+          }
+
+          .first-name {
+            margin: 10px 0; /* Adjust the margin as needed */
+          }
+        </style>
+      </head>
+
+      <body>
+        <div class="content">
+          <br />
+          <br />
+          <h1>CERTIFICATE OF COMPLETION</h1>
+          <br />
+          <h1>This certificate is awarded to</h1>
+          <h1 class="first-name">${firstName}</h1>
+          <h2>for completing the Volunteering Program ${event.eventName} for ${event.beneficiaryName}.</h2>
+          <br />
+          <h3>Number of hours contributed: ${event.eventHours}</h3>
+          <p>Start Date: //Start date//</p>
+          <p>End Date: //End date//</p>
+
+          <p>May ${firstName}'s active participation be the drive to continue contributing</p>
+          <p>meaningfully to the society!</p>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="signatures">
+            <!-- Left signature content goes here -->
+            <p>VolunteerHub Management</p>
+
+            <!-- Right signature content goes here -->
+            <p>${event.beneficiaryName} Management</p>
+        </div>
+      </body>
+    </html>
+  `;
   
+    let generatePdf = async () => {
+      const file = await printToFileAsync({
+        html: certificateHtml,
+        base64: false
+      });
+      await shareAsync(file.uri);
+    }
+
+    try {
+      generatePdf()
+    } catch (certError) {
+      Alert.alert("Error in generating Certificate!, " + certError)
+    }
+
     Alert.alert(
       "Thank You",
       "Your request for Certificate of Completion for this event is successfully submitted."

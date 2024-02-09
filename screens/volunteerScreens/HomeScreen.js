@@ -6,6 +6,7 @@ import { firebase } from '../../firebaseconfig';
 import { Card, Searchbar, Button, Paragraph } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export const CardItem = ({item, onSignUp}) => {
 
   const [showMore, setShowMore] = useState(false)
@@ -129,7 +130,6 @@ const HomeScreen = () => {
       ]
     );
   };
-  
 
   return (
      <View style={styles.container}>
