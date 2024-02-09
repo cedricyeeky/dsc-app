@@ -363,14 +363,19 @@ const HomeScreen = () => {
             )} 
 
             {eventStartDateTime &&
-            <Text>{eventStartDateTime.toLocaleString()}</Text>
-            }
-
-            {eventStartDateTime &&
-            <Text>{eventStartDateTime.toLocaleString()}</Text>
+              <TextInput
+                style={styles.textInput3}
+                label="Date & Time"
+                value={eventStartDateTime.toString()}
+                selectionColor='white'
+                cursorColor='white'
+                activeUnderlineColor='white'
+                textColor='white'
+                textAlign="center"
+                multiline= {true}
+              />
             }
             
-
             {/* Upload event image */}
             <Pressable style={styles.button2} onPress={selectImage} testID='voucher-image-button'>
               <Text style={styles.text1}>Choose Image From Library</Text>
@@ -503,6 +508,11 @@ const styles = StyleSheet.create({
   },
   textInput2: {
     backgroundColor: '#db7b98',
+  },
+  textInput3: {
+    backgroundColor: '#f26b8a',
+    fontSize: 20,
+    fontWeight: "bold"
   },
   titleVoucher: {
     fontSize: 20,
