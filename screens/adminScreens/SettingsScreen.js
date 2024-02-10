@@ -19,29 +19,10 @@ const SettingsScreen = () => {
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
   useEffect(() => {
-    generateReport(setReport);
+    generateReport();
   }, []);
 
-  // REFERENCE
-  //  const fetchEvents = (setEvents) => {
-  //   const unsubscribe =  firebase
-  //     .firestore()
-  //     .collection('events')
-  //     .orderBy('beneficiaryName', 'asc')
-  //     .onSnapshot((snapshot) => {
-  //       const data = [];
-  //       const userUid = firebase.auth().currentUser.uid; // Get the current user's UID
-  //       snapshot.forEach((doc) => {
-  //         const eventData = { id: doc.id, ...doc.data() };
-  //         // Check if the user's UID is not in the usedBy array of the event
-  //         if (!eventData.usedBy || !eventData.usedBy.includes(userUid)) {
-  //           data.push(eventData);
-  //         }
-  //       });
-  //       setEvents(data);
-  //     });
-  //     return unsubscribe;
-  // };
+  
 
   const generateReport = async () => {
     try {
@@ -93,56 +74,7 @@ const SettingsScreen = () => {
       });
 
       return unsubscribe;
-      // if (eventName) {
-      //   eventsQuery = eventsQuery.where('eventName', '==', eventName);
-      // }
-      // const eventsQuerySnapshot = await eventsQuery.get();
-
-      // console.log("Events Query Snapshot: " + String(eventsQuerySnapshot))
-
-      // Process the events and generate the report
-      // Initialize report object
-      // const newReport = {
-      //   numberOfEvents: eventsQuerySnapshot.size,
-      //   numberOfEnrollments: 0,
-      //   numberOfAttendance: 0,
-      //   numberOfCertificatesRequested: 0,
-      //   events: [],
-      // };
-
-      // Process each event
-      // await Promise.all(eventsQuerySnapshot.docs.map(async (eventDoc) => {
-      //   const eventData = eventDoc.data();
-      //   const eventId = eventDoc.eventId;
-      //   console.log("Event being reviewed: " + eventData)
-      //   console.log("Event ID: " + eventId)
-      //   console.log("Event Name: " + eventDoc.eventName)
-
-        // // Count number of enrollments
-        // newReport.numberOfEnrollments += eventData.usedBy.length;
-
-        // // Count number of attendance
-        // newReport.numberOfAttendance += eventData.attendedBy.length;
-
-        // // Count number of certificates requested
-        // newReport.numberOfCertificatesRequested += eventData.requestCertificate.length;
-
-        // // Query attendance collection for the event
-        // const attendanceQuerySnapshot = await firebase.firestore().collection('attendance')
-        //   .where('eventId', '==', eventId)
-        //   .get();
-
-        // // Retrieve participants for the event
-        // const participants = attendanceQuerySnapshot.docs.map((doc) => doc.data().uid);
-        // console.log("Participants: " + participants)
-
-        // // Add event details to the report
-        // newReport.events.push({
-        //   eventId,
-        //   eventName: eventData.name,
-        //   participants,
-        // });
-      // }));
+      
 
       // Update the state with the generated report
     } catch (error) {
