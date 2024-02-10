@@ -19,8 +19,29 @@ const SettingsScreen = () => {
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
   useEffect(() => {
-    generateReport();
+    generateReport(setReport);
   }, []);
+
+  // REFERENCE
+  //  const fetchEvents = (setEvents) => {
+  //   const unsubscribe =  firebase
+  //     .firestore()
+  //     .collection('events')
+  //     .orderBy('beneficiaryName', 'asc')
+  //     .onSnapshot((snapshot) => {
+  //       const data = [];
+  //       const userUid = firebase.auth().currentUser.uid; // Get the current user's UID
+  //       snapshot.forEach((doc) => {
+  //         const eventData = { id: doc.id, ...doc.data() };
+  //         // Check if the user's UID is not in the usedBy array of the event
+  //         if (!eventData.usedBy || !eventData.usedBy.includes(userUid)) {
+  //           data.push(eventData);
+  //         }
+  //       });
+  //       setEvents(data);
+  //     });
+  //     return unsubscribe;
+  // };
 
   const generateReport = async () => {
     try {
@@ -39,59 +60,91 @@ const SettingsScreen = () => {
         eventsQuery = eventsQuery.where('eventStartDateTime', '>=', startTimestamp).where('eventStartDateTime', '<=', endTimestamp);
         console.log(eventsQuery)
       }
+
+      const unsubscribe = eventsQuery.onSnapshot((snapshot) => {
+        let numberOfEnrollments = 0;
+        let numberOfAttendance = 0;
+        let numberOfCertificatesRequested = 0;
+        const data = [];
+
+        snapshot.forEach((doc) => {
+          const eventData = { id: doc.id, ...doc.data() };
+          // Check if the user's UID is not in the usedBy array of the event
+          data.push(eventData);
+
+          // Count number of enrollments
+          numberOfEnrollments += eventData.usedBy.length;
+
+          // Count number of attendance
+          numberOfAttendance += eventData.attendedBy.length;
+
+          // Count number of certificates requested
+          numberOfCertificatesRequested += eventData.requestCertificate.length;
+        });
+
+        const newReport = {
+          numberOfEvents: data.length,
+          numberOfEnrollments: numberOfEnrollments,
+          numberOfAttendance: numberOfAttendance,
+          numberOfCertificatesRequested: numberOfCertificatesRequested,
+          events: data,
+        };
+        setReport(newReport);
+      });
+
+      return unsubscribe;
       // if (eventName) {
       //   eventsQuery = eventsQuery.where('eventName', '==', eventName);
       // }
-      const eventsQuerySnapshot = await eventsQuery.get();
+      // const eventsQuerySnapshot = await eventsQuery.get();
 
-      console.log("Events Query Snapshot: " + String(eventsQuerySnapshot))
+      // console.log("Events Query Snapshot: " + String(eventsQuerySnapshot))
 
       // Process the events and generate the report
       // Initialize report object
-      const newReport = {
-        numberOfEvents: eventsQuerySnapshot.size,
-        numberOfEnrollments: 0,
-        numberOfAttendance: 0,
-        numberOfCertificatesRequested: 0,
-        events: [],
-      };
+      // const newReport = {
+      //   numberOfEvents: eventsQuerySnapshot.size,
+      //   numberOfEnrollments: 0,
+      //   numberOfAttendance: 0,
+      //   numberOfCertificatesRequested: 0,
+      //   events: [],
+      // };
 
       // Process each event
-      await Promise.all(eventsQuerySnapshot.docs.map(async (eventDoc) => {
-        const eventData = eventDoc.data();
-        const eventId = eventDoc.eventId;
-        console.log("Event being reviewed: " + eventData)
-        console.log("Event ID: " + eventId)
-        console.log("Event Name: " + eventDoc.eventName)
+      // await Promise.all(eventsQuerySnapshot.docs.map(async (eventDoc) => {
+      //   const eventData = eventDoc.data();
+      //   const eventId = eventDoc.eventId;
+      //   console.log("Event being reviewed: " + eventData)
+      //   console.log("Event ID: " + eventId)
+      //   console.log("Event Name: " + eventDoc.eventName)
 
-        // Count number of enrollments
-        newReport.numberOfEnrollments += eventData.usedBy.length;
+        // // Count number of enrollments
+        // newReport.numberOfEnrollments += eventData.usedBy.length;
 
-        // Count number of attendance
-        newReport.numberOfAttendance += eventData.attendedBy.length;
+        // // Count number of attendance
+        // newReport.numberOfAttendance += eventData.attendedBy.length;
 
-        // Count number of certificates requested
-        newReport.numberOfCertificatesRequested += eventData.requestCertificate.length;
+        // // Count number of certificates requested
+        // newReport.numberOfCertificatesRequested += eventData.requestCertificate.length;
 
-        // Query attendance collection for the event
-        const attendanceQuerySnapshot = await firebase.firestore().collection('attendance')
-          .where('eventId', '==', eventId)
-          .get();
+        // // Query attendance collection for the event
+        // const attendanceQuerySnapshot = await firebase.firestore().collection('attendance')
+        //   .where('eventId', '==', eventId)
+        //   .get();
 
-        // Retrieve participants for the event
-        const participants = attendanceQuerySnapshot.docs.map((doc) => doc.data().uid);
-        console.log("Participants: " + participants)
+        // // Retrieve participants for the event
+        // const participants = attendanceQuerySnapshot.docs.map((doc) => doc.data().uid);
+        // console.log("Participants: " + participants)
 
-        // Add event details to the report
-        newReport.events.push({
-          eventId,
-          eventName: eventData.name,
-          participants,
-        });
-      }));
+        // // Add event details to the report
+        // newReport.events.push({
+        //   eventId,
+        //   eventName: eventData.name,
+        //   participants,
+        // });
+      // }));
 
       // Update the state with the generated report
-      setReport(newReport);
     } catch (error) {
       console.error('Error generating report:', error);
     }
@@ -103,24 +156,21 @@ const SettingsScreen = () => {
         <View style={styles.container} testID="test-id-container">
           <Text style={styles.text}>Welcome! </Text>
 
-          <Text style={styles.radioButtonTitle}>Create your Volunteer Event here!</Text>
+          <Text style={styles.radioButtonTitle}>Generate Volunteerism Insights here!</Text>
 
           <Card style={styles.volunteerCard} testID="dollar-card">
             <Card.Title title="Search your queries" titleStyle={styles.titleVoucher} testID="dollar-card"/>
             <Card.Content>
               {/* Input fields */}
               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TextInput
-                  placeholder="Enter Event Name"
-                  value={eventName}
-                  onChangeText={setEventName}
-                  style={{ marginBottom: 10 }}
-                />
 
                 <Card.Actions>
                   <Pressable style={styles.button2} onPress={() => setShowStartDatePicker(true)}>
                     <Text style={styles.text1}>Select Start Date</Text>
                   </Pressable>
+                </Card.Actions>
+
+                <Card.Actions>
                   <Pressable style={styles.button2} onPress={() => setShowEndDatePicker(true)}>
                     <Text style={styles.text1}>Select End Date</Text>
                   </Pressable>
@@ -148,7 +198,7 @@ const SettingsScreen = () => {
                     selectionColor='white'
                     cursorColor='white'
                     activeUnderlineColor='white'
-                    textColor='white'
+                    textColor='black'
                     textAlign="center"
                     multiline= {true}
                   />
@@ -177,7 +227,7 @@ const SettingsScreen = () => {
                     selectionColor='white'
                     cursorColor='white'
                     activeUnderlineColor='white'
-                    textColor='white'
+                    textColor='black'
                     textAlign="center"
                     multiline= {true}
                   />
@@ -192,19 +242,33 @@ const SettingsScreen = () => {
             </Card.Content>
           </Card>
 
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
           {report ? (
             <>
-              <Text>Number of Events: {report.numberOfEvents}</Text>
-              <Text>Number of Enrollments: {report.numberOfEnrollments}</Text>
-              <Text>Number of Attendance: {report.numberOfAttendance}</Text>
-              <Text>Number of Certificates Requested: {report.numberOfCertificatesRequested}</Text>
-              <Text>List of Events:</Text>
+            <Text style={styles.whiteSpaceText}>White Space.</Text>
+            <Text style={styles.text2}>Number of Events: {report.numberOfEvents}</Text>
+            <Text style={styles.text2}>Number of Enrollments: {report.numberOfEnrollments}</Text>
+            <Text style={styles.text2}>Number of Attendance: {report.numberOfAttendance}</Text>
+            <Text style={styles.text2}>Number of Certificates Requested: {report.numberOfCertificatesRequested}</Text>
+            <Text style={styles.whiteSpaceText}>White Space.</Text>
+              
+              <Text style={styles.text2}>List of Events:</Text>
               {report.events.map((event) => (
-                <View key={event.eventId}>
-                  <Text>{event.eventName}</Text>
-                  <Text>Participants: {event.participants.join(', ')}</Text>
-                </View>
+              <View key={event.eventId}>
+                <Card style={styles.cardStyle}>
+              <Card.Content>
+                <Text style={styles.title}>{event.eventName}</Text>
+                <Text style={styles.title}>Participants: {event.attendedBy.join(', ')}</Text>
+            </Card.Content>
+
+            </Card>
+              </View>
+            
+
+
+
+      
+           
               ))}
             </>
           ) : (
@@ -219,73 +283,6 @@ const SettingsScreen = () => {
     </GestureHandlerRootView>
 
 
-
-
-
-
-
-    // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    //   <TextInput
-    //     placeholder="Enter Event Name"
-    //     value={eventName}
-    //     onChangeText={setEventName}
-    //     style={{ marginBottom: 10 }}
-    //   />
-    //   <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-    //     <Button title="Select Start Date" onPress={() => setShowStartDatePicker(true)} />
-    //     <Button title="Select End Date" onPress={() => setShowEndDatePicker(true)} />
-    //   </View>
-    //   {showStartDatePicker && (
-    //     <DateTimePicker
-    //       testID="startDatePicker"
-    //       value={startDate || new Date()}
-    //       mode="date"
-    //       is24Hour={true}
-    //       display="default"
-    //       onChange={(event, selectedDate) => {
-    //         setShowStartDatePicker(false);
-    //         setStartDate(selectedDate);
-    //         Alert.alert("Start Date selected: " + selectedDate)
-    //       }}
-    //     />
-    //   )}
-    //   {showEndDatePicker && (
-    //     <DateTimePicker
-    //       testID="endDatePicker"
-    //       value={endDate || new Date()}
-    //       mode="date"
-    //       is24Hour={true}
-    //       display="default"
-    //       onChange={(event, selectedDate) => {
-    //         setShowEndDatePicker(false);
-    //         setEndDate(selectedDate);
-    //       }}
-    //     />
-    //   )}
-
-
-      // <Button title="Generate Report" onPress={generateReport} />
-
-      // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      // {report ? (
-      //   <>
-      //     <Text>Number of Events: {report.numberOfEvents}</Text>
-      //     <Text>Number of Enrollments: {report.numberOfEnrollments}</Text>
-      //     <Text>Number of Attendance: {report.numberOfAttendance}</Text>
-      //     <Text>Number of Certificates Requested: {report.numberOfCertificatesRequested}</Text>
-      //     <Text>List of Events:</Text>
-      //     {report.events.map((event) => (
-      //       <View key={event.eventId}>
-      //         <Text>{event.eventName}</Text>
-      //         <Text>Participants: {event.participants.join(', ')}</Text>
-      //       </View>
-      //     ))}
-      //   </>
-      // ) : (
-      //   <Text>Loading report...</Text>
-      // )}
-      // </View>
-  //   </View>
   );
 };
   
@@ -301,11 +298,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
   },
   button2: {
-    marginTop: 30,
+    marginTop: 10,
     backgroundColor: "#bf281f",
     alignItems: 'center',
     padding: 15,
     borderRadius: 15,
+  },
+  cardStyle: {
+    marginTop: 20,
+    width: '90%',
+    marginHorizontal: 15,
+    borderRadius: 10,
   },
   container: {
     backgroundColor: '#fff',
@@ -317,7 +320,7 @@ const styles = StyleSheet.create({
   volunteerCard: {
     width: '100%',
     marginTop: 10,
-    backgroundColor: 'blue',
+    backgroundColor: '#f26b8a',
     color: 'white',
     borderRadius: 20,
     padding: 10,
@@ -331,11 +334,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  text2: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
+    marginVertical: 5,
+  },
+  title: {
+    fontWeight: 'bold',
+    marginVertical: 6,
+  },
   textInput3: {
-    backgroundColor: '#f26b8a',
+    backgroundColor: 'white',
     fontSize: 15,
     fontWeight: "bold",
-    width: '100%'
+    width: '100%',
+    marginVertical: 10,
   },
   radioButtonTitle: {
     marginTop: 40,
@@ -350,7 +364,7 @@ const styles = StyleSheet.create({
   },
   whiteSpaceText: {
     fontSize: 16,
-    marginVertical: 20,
+    marginVertical: 15,
     color: '#fff',
     fontWeight: 'bold',
   },
