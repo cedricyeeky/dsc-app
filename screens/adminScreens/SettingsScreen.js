@@ -11,8 +11,8 @@ import FormButton from '../../components/FormButton';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SettingsScreen = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [eventName, setEventName] = useState('');
   const [report, setReport] = useState(null);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
@@ -35,15 +35,13 @@ const SettingsScreen = () => {
       console.log("Selected endTimestamp: " + endTimestamp)
       // Query events collection based on filters
       let eventsQuery = firebase.firestore().collection('events');
-      if (startTimestamp) {
-        eventsQuery = eventsQuery.where('timestamp', '>=', startTimestamp);
+      if (startTimestamp && endTimestamp) {
+        eventsQuery = eventsQuery.where('eventStartDateTime', '>=', startTimestamp).where('eventStartDateTime', '<=', endTimestamp);
+        console.log(eventsQuery)
       }
-      if (endTimestamp) {
-        eventsQuery = eventsQuery.where('timestamp', '<=', endTimestamp);
-      }
-      if (eventName) {
-        eventsQuery = eventsQuery.where('name', '==', eventName);
-      }
+      // if (eventName) {
+      //   eventsQuery = eventsQuery.where('eventName', '==', eventName);
+      // }
       const eventsQuerySnapshot = await eventsQuery.get();
 
       console.log("Events Query Snapshot: " + String(eventsQuerySnapshot))
